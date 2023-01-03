@@ -179,6 +179,7 @@ int amdgpu_mes;
 int amdgpu_mes_kiq;
 int amdgpu_noretry = -1;
 int amdgpu_force_asic_type = -1;
+int amdgpu_hdmimhz = 0;
 int amdgpu_tmz = -1; /* auto */
 int amdgpu_reset_method = -1; /* auto */
 int amdgpu_num_kcq = -1;
@@ -493,6 +494,13 @@ module_param_named(pg_mask, amdgpu_pg_mask, uint, 0444);
  */
 MODULE_PARM_DESC(sdma_phase_quantum, "SDMA context switch phase quantum (x 1K GPU clock cycles, 0 = no change (default 32))");
 module_param_named(sdma_phase_quantum, amdgpu_sdma_phase_quantum, uint, 0444);
+
+/**
+ * DOC: hdmimhz(uint)
+ * Override maximum HDMI pixel clock restriction. The default is 0 (not applied).
+ */
+MODULE_PARM_DESC(hdmimhz, "Force a maximum HDMI pixel clock (in MHz); try 165/225/297/330 to overclock your TMDS for gaining a higher resolution.");
+module_param_named(hdmimhz, amdgpu_hdmimhz, int, 0444);
 
 /**
  * DOC: disable_cu (charp)

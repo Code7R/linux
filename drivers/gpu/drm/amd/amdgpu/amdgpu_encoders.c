@@ -209,6 +209,9 @@ bool amdgpu_dig_monitor_is_duallink(struct drm_encoder *encoder,
 	struct amdgpu_connector *amdgpu_connector;
 	struct amdgpu_connector_atom_dig *dig_connector;
 
+	if(amdgpu_hdmimhz > 0)
+		return false;
+
 	connector = amdgpu_get_connector_for_encoder(encoder);
 	/* if we don't have an active device yet, just use one of
 	 * the connectors tied to the encoder.

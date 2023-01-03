@@ -1171,6 +1171,7 @@ static enum drm_mode_status amdgpu_connector_dvi_mode_valid(struct drm_connector
 	struct drm_device *dev = connector->dev;
 	struct amdgpu_device *adev = drm_to_adev(dev);
 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+	int mode_valid = MODE_OK;
 
 	/* XXX check mode bandwidth */
 
@@ -1182,19 +1183,22 @@ static enum drm_mode_status amdgpu_connector_dvi_mode_valid(struct drm_connector
 		} else if (connector->display_info.is_hdmi) {
 			/* HDMI 1.3+ supports max clock of 340 Mhz */
 			if (mode->clock > 340000)
-				return MODE_CLOCK_HIGH;
+				mode_valid = MODE_CLOCK_HIGH;
 			else
 				return MODE_OK;
 		} else {
-			return MODE_CLOCK_HIGH;
+			mode_valid = MODE_CLOCK_HIGH;
 		}
 	}
 
+	if ( amdgpu_hdmimhz > 0 && ( mode->clock <= amdgpu_hdmimhz * 1000 ) )
+		mode_valid = MODE_OK;
+
 	/* check against the max pixel clock */
-	if ((mode->clock / 10) > adev->clock.max_pixel_clock)
+	if (mode_valid == MODE_OK && (mode->clock / 10) > adev->clock.max_pixel_clock)
 		return MODE_CLOCK_HIGH;
 
-	return MODE_OK;
+	return mode_valid;
 }
 
 static const struct drm_connector_helper_funcs amdgpu_connector_dvi_helper_funcs = {
