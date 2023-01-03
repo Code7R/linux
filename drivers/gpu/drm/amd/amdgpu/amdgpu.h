@@ -158,6 +158,7 @@ extern int amdgpu_gtt_size;
 extern int amdgpu_moverate;
 extern int amdgpu_audio;
 extern int amdgpu_disp_priority;
+extern int amdgpu_dvid_is_hdmi;
 extern int amdgpu_hw_i2c;
 extern int amdgpu_pcie_gen2;
 extern int amdgpu_msi;
@@ -1447,5 +1448,12 @@ static inline bool amdgpu_is_tmz(struct amdgpu_device *adev)
 }
 
 int amdgpu_in_reset(struct amdgpu_device *adev);
+
+static inline bool amdgpu_connector_is_hdmi(struct drm_connector *connector)
+{
+        return connector->display_info.is_hdmi ||
+                (amdgpu_dvid_is_hdmi && connector->connector_type ==
+                 DRM_MODE_CONNECTOR_DVID);
+}
 
 #endif

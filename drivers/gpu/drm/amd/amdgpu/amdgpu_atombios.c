@@ -361,6 +361,9 @@ bool amdgpu_atombios_get_connector_info_from_object_table(struct amdgpu_device *
 
 			if (connector_type == DRM_MODE_CONNECTOR_Unknown)
 				continue;
+      
+      if (connector_type == DRM_MODE_CONNECTOR_DVID && amdgpu_dvid_is_hdmi)
+              connector_type = DRM_MODE_CONNECTOR_HDMIA;
 
 			router.ddc_valid = false;
 			router.cd_valid = false;

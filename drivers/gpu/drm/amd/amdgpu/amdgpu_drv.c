@@ -186,6 +186,7 @@ int amdgpu_num_kcq = -1;
 int amdgpu_smartshift_bias;
 int amdgpu_use_xgmi_p2p = 1;
 int amdgpu_vcnfw_log;
+int amdgpu_dvid_is_hdmi = 0;
 
 static void amdgpu_drv_delayed_reset_work_handler(struct work_struct *work);
 
@@ -579,6 +580,13 @@ module_param_named(timeout_fatal_disable, amdgpu_watchdog_timer.timeout_fatal_di
  */
 MODULE_PARM_DESC(timeout_period, "watchdog timeout period (0 = timeout disabled, 1 ~ 0x23 = timeout maxcycles = (1 << period)");
 module_param_named(timeout_period, amdgpu_watchdog_timer.period, uint, 0644);
+
+/**
+ * DOC: dvid_is_hdmi (uint)
+ * Forcibly treat all DVI-D connectors as if they were HDMI (only HDMI hardware must be connected)
+ */
+MODULE_PARM_DESC(dvid_is_hdmi, "Use HDMI-like handling on all DVI-D ports (0=disable (default), 1=enable)");
+module_param_named(dvid_is_hdmi, amdgpu_dvid_is_hdmi, int, 0444);
 
 /**
  * DOC: si_support (int)
